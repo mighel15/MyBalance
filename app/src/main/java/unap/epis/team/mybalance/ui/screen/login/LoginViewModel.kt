@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import unap.epis.team.mybalance.data.repository.UserRepository
 import kotlin.time.Duration.Companion.milliseconds
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel() : ViewModel() {
 
     private val repository: UserRepository = UserRepository()
 
@@ -48,13 +48,20 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun registrar() {
+    fun registrarUsuario() {
         viewModelScope.launch {
             try {
                 _uiState.value = LoginUiState.Loading
-                // do the register
-                delay(5000.milliseconds)
-                _uiState.value = LoginUiState.Success("Welcome")
+                val response = repository.registroUsuario(nombre.value, email.value, password.value)
+                if(response.isSuccess)
+                {
+                    _uiState.value = LoginUiState.SuccessRegister(email.value)
+                }
+                else
+                {
+                    _uiState.value = LoginUiState.Error(response.exceptionOrNull()?.message!!)
+                }
+
 
             } catch (e: Exception) {
                 _uiState.value = LoginUiState.Error(e.message ?: "Error desconocido")

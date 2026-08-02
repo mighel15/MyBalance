@@ -1,5 +1,6 @@
 package unap.epis.team.mybalance.ui.screen.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -50,6 +51,15 @@ fun LoginScreen(
             }
             is LoginUiState.Initial->{
 
+            }
+            is LoginUiState.SuccessRegister->{
+
+                Toast.makeText(navController?.context, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+
+                modoRegistro = false
+                viewModel.onPasswordChange("")
+                viewModel.onNameChange("")
+                viewModel.onEmailChange(currentState.correo)
             }
             else -> {
 
@@ -130,7 +140,10 @@ fun LoginScreen(
 
         Button(
             onClick = {
-                viewModel.doLogin()
+                if(modoRegistro)
+                    viewModel.registrarUsuario()
+                else
+                    viewModel.doLogin()
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -170,4 +183,4 @@ private fun LoginScreenPreview() {
 //↓
 //Repository  -> obtengo la información
 //↓
-//API     ->
+//API     -> API
