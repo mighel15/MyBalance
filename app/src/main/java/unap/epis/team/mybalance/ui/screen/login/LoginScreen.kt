@@ -47,7 +47,7 @@ fun LoginScreen(
                 error = currentState.mensaje
             }
             is LoginUiState.Success->{
-                navController?.navigate(Screens.Home.route)
+                navController?.navigate(Screens.Main.route)
             }
             is LoginUiState.Initial->{
                 viewModel.verificarSession()

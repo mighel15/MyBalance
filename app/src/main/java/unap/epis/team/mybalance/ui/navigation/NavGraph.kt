@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import unap.epis.team.mybalance.ui.screen.home.HomeScreen
 import unap.epis.team.mybalance.ui.screen.login.LoginScreen
 import unap.epis.team.mybalance.ui.screen.login.LoginViewModel
+import unap.epis.team.mybalance.ui.screen.main.MainScreen
 
 @Composable
 fun NavGraph() {
@@ -23,9 +24,9 @@ fun NavGraph() {
         composable(Screens.Home.route) {
             HomeScreen(navController)
         }
-//        composable(Screens.Main.route) {
-//            MainScreen()
-//        }
+        composable(Screens.Main.route) {
+            MainScreen(navController)
+        }
     }
 
 }
