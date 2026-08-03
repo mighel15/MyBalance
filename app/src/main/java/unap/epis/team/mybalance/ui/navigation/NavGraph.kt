@@ -21,7 +21,7 @@ fun NavGraph() {
             LoginScreen(navController)
         }
         composable(Screens.Home.route) {
-            HomeScreen("Miguel")
+            HomeScreen(navController)
         }
 //        composable(Screens.Main.route) {
 //            MainScreen()

@@ -1,18 +1,21 @@
 package unap.epis.team.mybalance.ui.screen.login
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import unap.epis.team.mybalance.data.local.SessionManager
 import unap.epis.team.mybalance.data.repository.UserRepository
-import kotlin.time.Duration.Companion.milliseconds
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: UserRepository = UserRepository()
+
+    private val sessionManager = SessionManager(application)
 
     private val _uiState = MutableStateFlow<LoginUiState> (LoginUiState.Initial)
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -35,6 +38,11 @@ class LoginViewModel() : ViewModel() {
 
                 if(result.isSuccess)
                 {
+                    //guardar los datos de la session
+                    sessionManager.saveSession(
+                        result.getOrNull()?.token!!,
+                        result.getOrNull()?.user?.id!!,
+                        result.getOrNull()?.user?.nombre!!)
                     _uiState.value = LoginUiState.Success("Welcome")
                 }
                 else
@@ -44,6 +52,17 @@ class LoginViewModel() : ViewModel() {
 
             } catch (e: Exception) {
                 _uiState.value = LoginUiState.Error(e.message ?: "Error desconocido")
+            }
+        }
+    }
+
+    fun verificarSession()
+    {
+        viewModelScope.launch {
+            val token = sessionManager.token.first()
+            if(token != null)
+            {
+                _uiState.value = LoginUiState.Success(token)
             }
         }
     }

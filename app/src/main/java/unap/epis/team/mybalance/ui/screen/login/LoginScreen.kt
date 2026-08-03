@@ -50,7 +50,7 @@ fun LoginScreen(
                 navController?.navigate(Screens.Home.route)
             }
             is LoginUiState.Initial->{
-
+                viewModel.verificarSession()
             }
             is LoginUiState.SuccessRegister->{
 

@@ -9,11 +9,10 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-
 val Context.dataStore by preferencesDataStore(name = "my_balance")
 
 class SessionManager(private val context: Context) {
-
+    //public
     companion object {
 
         private val TOKEN = stringPreferencesKey("token")
@@ -21,8 +20,8 @@ class SessionManager(private val context: Context) {
         private val USER_NAME = stringPreferencesKey("user_name")
         private val IS_LOGIN = booleanPreferencesKey("is_login")
     }
-
-    suspend fun saveSession(
+    //metodos
+    suspend fun saveSession(  //cuanto inicio session y es correcta
         token: String,
         userId: Int,
         userName: String
@@ -37,7 +36,7 @@ class SessionManager(private val context: Context) {
         }
 
     }
-
+    //getter
     val token: Flow<String?> =
         context.dataStore.data.map {
             it[TOKEN]
@@ -58,7 +57,7 @@ class SessionManager(private val context: Context) {
             it[IS_LOGIN] ?: false
         }
 
-    suspend fun logout() {
+    suspend fun logout() { // cerrar session
         context.dataStore.edit {
             it.clear()
         }
