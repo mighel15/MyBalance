@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -40,6 +42,17 @@ android {
 }
 
 dependencies {
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    implementation(libs.hilt.work)
+    ksp(libs.hilt.work.compiler)
+    implementation(libs.work.runtime.ktx)
+
+    ksp(libs.kotlin.metadata.jvm)
+
 
     //datastore -> manejo de sessiones
     implementation("androidx.datastore:datastore-preferences:1.1.7")
