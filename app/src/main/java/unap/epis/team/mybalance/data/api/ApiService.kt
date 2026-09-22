@@ -12,8 +12,6 @@ import unap.epis.team.mybalance.data.model.response.UserResponse
 
 interface UserApiService {
 
-    //retrofit
-
     @POST("auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 

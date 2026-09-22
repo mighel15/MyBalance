@@ -3,6 +3,7 @@ package unap.epis.team.mybalance.ui.screen.login
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,10 +11,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import unap.epis.team.mybalance.data.local.SessionManager
 import unap.epis.team.mybalance.data.repository.UserRepository
+import unap.epis.team.mybalance.data.repository.UserRepositoryImpl
+import javax.inject.Inject
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: UserRepository = UserRepository()
+@HiltViewModel
+class LoginViewModel @Inject constructor (
+        application: Application,
+        private val repository: UserRepository
+    ): AndroidViewModel(application) {
 
     private val sessionManager = SessionManager(application)
 
