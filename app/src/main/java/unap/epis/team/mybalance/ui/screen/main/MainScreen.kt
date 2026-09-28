@@ -28,6 +28,7 @@ import unap.epis.team.mybalance.ui.screen.budget.BudgetScreen
 import unap.epis.team.mybalance.ui.screen.home.HomeScreen
 import unap.epis.team.mybalance.ui.screen.report.ReportScreen
 
+
 enum class Destination(
     val label: String,
     val icon: ImageVector,
