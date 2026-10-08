@@ -6,13 +6,20 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
+import javax.inject.Singleton
 
 val Context.dataStore by preferencesDataStore(name = "my_balance")
 
-class SessionManager(private val context: Context) {
-    //public
+@Singleton
+class SessionManager @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
     companion object {
 
         private val TOKEN = stringPreferencesKey("token")
@@ -20,44 +27,24 @@ class SessionManager(private val context: Context) {
         private val USER_NAME = stringPreferencesKey("user_name")
         private val IS_LOGIN = booleanPreferencesKey("is_login")
     }
-    //metodos
-    suspend fun saveSession(  //cuanto inicio session y es correcta
-        token: String,
-        userId: Int,
-        userName: String
-    ) {
 
+    suspend fun saveSession(token: String,userId: Int,userName: String) {
         context.dataStore.edit {
-
             it[TOKEN] = token
             it[USER_ID] = userId
             it[USER_NAME] = userName
             it[IS_LOGIN] = true
         }
-
     }
-    //getter
-    val token: Flow<String?> =
-        context.dataStore.data.map {
-            it[TOKEN]
-        }
 
-    val userId: Flow<Int> =
-        context.dataStore.data.map {
-            it[USER_ID] ?: 0
-        }
+    val token: Flow<String?> = context.dataStore.data.map { it[TOKEN] }
+    val userId: Flow<Int> = context.dataStore.data.map { it[USER_ID] ?: 0 }
+    val userName: Flow<String> = context.dataStore.data.map { it[USER_NAME] ?: "" }
+    val isLogged: Flow<Boolean> = context.dataStore.data.map { it[IS_LOGIN] ?: false }
 
-    val userName: Flow<String> =
-        context.dataStore.data.map {
-            it[USER_NAME] ?: ""
-        }
+    fun getTokenBlocking(): String? = runBlocking { token.first() }
 
-    val isLogged: Flow<Boolean> =
-        context.dataStore.data.map {
-            it[IS_LOGIN] ?: false
-        }
-
-    suspend fun logout() { // cerrar session
+    suspend fun logout() {
         context.dataStore.edit {
             it.clear()
         }

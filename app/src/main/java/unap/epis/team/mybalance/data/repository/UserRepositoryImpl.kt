@@ -3,7 +3,7 @@ package unap.epis.team.mybalance.data.repository
 import org.json.JSONObject
 import unap.epis.team.mybalance.data.api.UserApiService
 import unap.epis.team.mybalance.data.model.request.LoginRequest
-import unap.epis.team.mybalance.data.model.request.RegisterUserRequest
+import unap.epis.team.mybalance.data.model.request.CreateUserRequest
 import unap.epis.team.mybalance.data.model.response.LoginResponse
 import unap.epis.team.mybalance.data.model.response.RegisterUserResponse
 import javax.inject.Inject
@@ -55,7 +55,7 @@ class UserRepositoryImpl @Inject constructor(private val apiService: UserApiServ
 
         return try {
 
-            val request = RegisterUserRequest(nombre, correo, contrasenia)
+            val request = CreateUserRequest(nombre, correo, contrasenia)
 
             val response = apiService.registrarUsuario(request)
 

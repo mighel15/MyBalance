@@ -5,7 +5,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import unap.epis.team.mybalance.data.model.request.LoginRequest
-import unap.epis.team.mybalance.data.model.request.RegisterUserRequest
+import unap.epis.team.mybalance.data.model.request.CreateUserRequest
+import unap.epis.team.mybalance.data.model.response.CategoryResponse
 import unap.epis.team.mybalance.data.model.response.LoginResponse
 import unap.epis.team.mybalance.data.model.response.RegisterUserResponse
 import unap.epis.team.mybalance.data.model.response.UserResponse
@@ -19,6 +20,6 @@ interface UserApiService {
     suspend fun myInfo(): Response<UserResponse>
 
     @POST("auth/registro")
-    suspend fun registrarUsuario(@Body request: RegisterUserRequest): Response<RegisterUserResponse>
-
+    suspend fun registrarUsuario(@Body request: CreateUserRequest): Response<RegisterUserResponse>
 }
+

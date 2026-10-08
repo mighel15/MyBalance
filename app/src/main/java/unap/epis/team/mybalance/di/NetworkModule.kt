@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import unap.epis.team.mybalance.data.api.CategoryApiService
 import unap.epis.team.mybalance.data.api.UserApiService
 import javax.inject.Singleton
 
@@ -30,8 +31,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient(json: Json): OkHttpClient =
+    fun provideHttpClient(json: Json, authInterceptor: AuthInterceptor): OkHttpClient =
         OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
@@ -55,6 +57,9 @@ object NetworkModule {
     fun provideUserApiService(retrofit: Retrofit): UserApiService =
         retrofit.create(UserApiService::class.java)
 
-
+    @Provides
+    @Singleton
+    fun provideCategoriaApiService(retrofit: Retrofit): CategoryApiService =
+        retrofit.create(CategoryApiService::class.java)
 
 }
