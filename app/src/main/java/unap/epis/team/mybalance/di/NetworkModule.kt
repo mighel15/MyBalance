@@ -12,7 +12,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import unap.epis.team.mybalance.data.api.BudgetApiService
 import unap.epis.team.mybalance.data.api.CategoryApiService
+import unap.epis.team.mybalance.data.api.ReportApiService
+import unap.epis.team.mybalance.data.api.TransactionApiService
 import unap.epis.team.mybalance.data.api.UserApiService
 import javax.inject.Singleton
 
@@ -61,5 +64,20 @@ object NetworkModule {
     @Singleton
     fun provideCategoriaApiService(retrofit: Retrofit): CategoryApiService =
         retrofit.create(CategoryApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideBudgetApiService(retrofit: Retrofit): BudgetApiService =
+        retrofit.create(BudgetApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTransactionApiService(retrofit: Retrofit): TransactionApiService =
+        retrofit.create(TransactionApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideReportApiService(retrofit: Retrofit): ReportApiService =
+        retrofit.create(ReportApiService::class.java)
 
 }
