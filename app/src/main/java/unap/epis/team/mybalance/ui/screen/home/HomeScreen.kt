@@ -67,6 +67,7 @@ fun HomeScreen(
     mes: String = "Julio",
     modifier: Modifier = Modifier
 ) {
+
     val totalIngresos = movimientos.filter { it.tipo == TipoMovimiento.INGRESO }.sumOf { it.monto }
     val totalGastos = movimientos.filter { it.tipo == TipoMovimiento.GASTO }.sumOf { it.monto }
     val balance = totalIngresos - totalGastos
